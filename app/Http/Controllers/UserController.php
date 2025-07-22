@@ -6,6 +6,7 @@ use App\Http\Requests\User\UserRequest;
 use App\Http\Resources\Company\CompanyResource;
 use App\Http\Resources\Tender\TenderBidResource;
 use App\Http\Resources\Tender\TenderResource;
+use App\Http\Resources\User\UserBigResource;
 use App\Http\Resources\User\UserResource;
 use App\Models\User\User;
 use Illuminate\Http\Request;
@@ -21,7 +22,7 @@ class UserController extends Controller
 
     public function show(User $user)
     {
-        return UserResource::make($user);
+        return UserBigResource::make($user);
     }
 
     public function update(User $user, UserRequest $request)

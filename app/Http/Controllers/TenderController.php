@@ -52,7 +52,7 @@ class TenderController extends Controller
     public function changeStatus(Tender $tender, TenderStatusRequest $request)
     {
         $validatedData = $request->validated();
-        $user = $request->user()->id;
+        $user = $request->user();
 
         if ($user->id !== $tender->user_id) {
             return response()->json(['error' => 'You cant change status this tender'], 400);
@@ -67,7 +67,7 @@ class TenderController extends Controller
 
         $tender->save();
 
-        return response()->json(['message' => 'Tender published success'], 200);
+        return response()->json(['message' => 'Tender changed status success'], 200);
     }
 
     public function bid(Tender $tender, TenderBidRequest $request)

@@ -36,6 +36,8 @@ class TenderResource extends JsonResource
             'auction_date' => $this->auction_date,
             'user' => UserResource::make($this->user),
             'category' => TenderCategoryResource::make($this->category),
+            'bids_count' => $this->bids()->count(),
+            'bids' => TenderBidResource::collection($this->bids)
         ];
     }
 }

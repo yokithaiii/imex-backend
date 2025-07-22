@@ -56,4 +56,15 @@ class User extends Authenticatable
     {
         return $this->hasMany(TenderBid::class, 'user_id', 'id');
     }
+
+    public function subscription()
+    {
+        return $this->hasOne(UserSubscription::class, 'user_id', 'id');
+    }
+
+    public function tariff()
+    {
+        return $this->subscription->tariff();
+    }
+
 }

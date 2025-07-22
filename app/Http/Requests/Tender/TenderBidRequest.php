@@ -22,7 +22,7 @@ class TenderBidRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'company_id' => 'required|string|exists:company,id',
+            'company_id' => 'required|string|exists:companies,id',
             'price' => 'required|integer',
             'comment' => 'nullable|string',
         ];
