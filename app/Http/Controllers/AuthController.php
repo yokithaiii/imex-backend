@@ -58,8 +58,8 @@ class AuthController extends Controller
             'code' => $this->confirmationCode,
         ]);
 
-        return 1111;
-        return $this->smsService->sendSMS($phone, $code);
+//        return 1111;
+        return $this->smsService->sendSMS($phone, $this->confirmationCode);
     }
 
     public function loginByPhoneConfirmCode(LoginPhoneCodeRequest $request)
@@ -106,8 +106,8 @@ class AuthController extends Controller
                 'code' => $this->confirmationCode,
             ]);
 
-            return 1111;
-            return $this->smsService->sendSMS($phone, $code);
+//            return 1111;
+            return $this->smsService->sendSMS($phone, $this->confirmationCode);
         }
 
         if ($email && !$phone) {

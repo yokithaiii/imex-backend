@@ -2,54 +2,56 @@
 
 namespace App\Services;
 
+use Illuminate\Support\Facades\Log;
+
 class SmsService
 {
     public function sendSMS($phone, $code)
     {
-        $url = 'https://lcab.smsint.ru/json/v1.0/sms/send/text';
+        $login = env('REDSMS_LOGIN');
+        $apiKey = env('REDSMS_API_KEY');
+        $sender = env('REDSMS_SENDER');
 
-        $headers = [
-            'Content-Type: application/json',
-            'X-Token: ' . env('SMSINT_API_KEY'),
+        $ts = 'ts-value-' . time();
+        $secret = md5($ts . $apiKey);
+        $text = 'Код: ' . $code;
+
+        $payload = [
+            'route' => 'sms',
+            'from' => $sender,
+            'to' => $phone,
+            'text' => $text,
         ];
 
-        $body = [
-            'messages' => [
-                [
-                    'recipient' => $phone,
-                    'recipientType' => 'recipient',
-                    'text' => 'Ваш код для авторизации в Bodyline: ' . $code, //Если будете менять, поменяйте шаблон модерации на smsint тоже
-                ],
-            ],
-            'validate' => false,
-            'tags' => [
-                'SITE'
-            ],
-            'timezone' => 'Asia/Yakutsk',
-            'channel' => 0
+        $headers = [
+            'login: ' . $login,
+            'ts: ' . $ts,
+            'secret: ' . $secret,
+            'Content-type: application/json',
         ];
 
         $ch = curl_init();
-
-        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_URL, 'https://cp.redsms.ru/api/message');
         curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($body));
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         $response = curl_exec($ch);
-        $info = curl_getinfo($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
-        $responseArray = json_decode($response, true);
 
-        if (json_last_error() != JSON_ERROR_NONE) {
-            return response()->json(['error' => 'Error response format'], $info['http_code']);
+        $responseData = json_decode($response, true);
+
+        if ($httpCode === 200) {
+            return response()->json(['message' => 'На ваш номер телефона отправлен код'], 200);
         }
 
-        if ($info['http_code'] != 200) {
-            return response()->json(['error' => $responseArray['error']['descr']], $responseArray['error']['code']);
-        }
+        Log::error('RedSMS sending failed', [
+            'http_code' => $httpCode,
+            'response' => $responseData,
+        ]);
 
-        return response()->json(['message' => 'Код отправлен на указанный номер.']);
+        return false;
     }
 }
