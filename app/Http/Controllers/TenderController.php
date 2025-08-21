@@ -8,11 +8,17 @@ use App\Http\Requests\Tender\TenderStatusRequest;
 use App\Http\Requests\Tender\TenderUpdateRequest;
 use App\Http\Resources\Tender\TenderResource;
 use App\Models\Tender\Tender;
+use App\Services\TenderService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class TenderController extends Controller
 {
+    public function __construct(TenderService $tenderService)
+    {
+        $this->tenderService = $tenderService;
+    }
+
     public function index(Request $request)
     {
         $page = $request->input('page', 1);
@@ -30,9 +36,7 @@ class TenderController extends Controller
 
         $validatedData['user_id'] = $user->id;
 
-        Tender::query()->create($validatedData);
-
-        return response()->json(['message' => 'Tender created success'], 201);
+        return $this->tenderService->createTender($validatedData);
     }
 
     public function show(Tender $tender)

@@ -22,19 +22,30 @@ class TenderRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'company_id' => 'required|string|exists:companies,id',
+            'region_id' => 'required|string|exists:regions,id',
+            'category_id' => 'required|string|exists:tender_categories,id',
+            'payment_id' => 'nullable|string|exists:tender_payments,id',
+
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'category_id' => 'required|string|exists:tender_categories,id',
-            'item_name' => 'required|string',
-            'unit_of_measure' => 'required|string',
-            'quantity' => 'required|integer',
-            'price_per_unit' => 'required|integer',
-            'total_amount' => 'required|integer',
-            'delivery_place' => 'nullable|string',
-            'notes' => 'nullable|string',
-            'submission_deadline' => 'required|date',
-            'auction_date' => 'nullable|date',
-            'payment_id' => 'required|string|exists:tender_payments,id'
+            'unit_quantity' => 'required|integer|min:1',
+            'unit_measure' => 'nullable|string',
+
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
+
+            'start_price' => 'required|integer|min:1',
+            'max_price' => 'required|integer|min:1',
+
+            'files' => 'nullable|array',
+            'files.*.url' => 'string',
+            'files.*.type' => 'string',
+
+            'recommend_before_tender_end' => 'boolean',
+            'is_escrow_tender' => 'boolean',
+            'notifications_new_members' => 'boolean',
+            'notifications_offer_changes' => 'boolean',
         ];
     }
 }

@@ -15,31 +15,31 @@ class Tender extends Model
 
     protected $fillable = [
         'user_id',
-        'category_id',
+        'company_id',
+        'region_id',
         'payment_id',
+        'category_id',
         'title',
         'description',
         'tender_number',
-        'item_name',
-        'unit_of_measure',
-        'quantity',
-        'price_per_unit',
-        'total_amount',
-        'delivery_place',
-        'notes',
-        'status',
+        'unit_quantity',
+        'unit_measure',
+        'start_date',
+        'end_date',
         'published_at',
-        'submission_deadline',
-        'auction_date'
+        'start_price',
+        'max_price',
+        'status',
+        'notifications_new_members',
+        'notifications_offer_changes',
+        'recommend_before_tender_end',
+        'is_escrow_tender',
     ];
 
     protected $casts = [
         'published_at' => 'datetime',
-        'submission_deadline' => 'datetime',
-        'auction_date' => 'datetime',
-        'quantity' => 'decimal:2',
-        'price_per_unit' => 'decimal:2',
-        'total_amount' => 'decimal:2',
+        'start_date' => 'datetime',
+        'end_date' => 'datetime',
     ];
 
     public static function boot()

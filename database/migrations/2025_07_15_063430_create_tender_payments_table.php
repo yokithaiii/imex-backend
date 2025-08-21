@@ -21,7 +21,7 @@ return new class extends Migration
 
         Schema::table('tenders', function (Blueprint $table) {
             // Условие оплаты
-            $table->foreignUuid('payment_id')->constrained('tender_payments')->cascadeOnDelete();
+            $table->foreignUuid('payment_id')->nullable()->constrained('tender_payments')->cascadeOnDelete();
         });
     }
 
