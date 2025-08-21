@@ -6,6 +6,7 @@ use App\Http\Requests\Tender\TenderBidRequest;
 use App\Http\Requests\Tender\TenderRequest;
 use App\Http\Requests\Tender\TenderStatusRequest;
 use App\Http\Requests\Tender\TenderUpdateRequest;
+use App\Http\Resources\Tender\TenderDetailResource;
 use App\Http\Resources\Tender\TenderResource;
 use App\Models\Tender\Tender;
 use App\Services\TenderService;
@@ -24,7 +25,33 @@ class TenderController extends Controller
         $page = $request->input('page', 1);
         $perPage = $request->input('per_page', 5);
 
-        $tenders = Tender::query()->paginate($perPage, ['*'], 'page', $page);
+        $tenders = Tender::query()
+            ->where('status', '=', 'published')
+            ->paginate($perPage, ['*'], 'page', $page);
+
+        return TenderResource::collection($tenders);
+    }
+
+    public function getCreatedTenders(Request $request)
+    {
+        $page = $request->input('page', 1);
+        $perPage = $request->input('per_page', 5);
+
+        $tenders = Tender::query()
+            ->where('user_id', $request->user()->id)
+            ->paginate($perPage, ['*'], 'page', $page);
+
+        return TenderResource::collection($tenders);
+    }
+
+    public function getParticipatedTenders(Request $request)
+    {
+        $page = $request->input('page', 1);
+        $perPage = $request->input('per_page', 5);
+
+        $tenders = Tender::query()
+            ->where('status', '=', 'published')
+            ->paginate($perPage, ['*'], 'page', $page);
 
         return TenderResource::collection($tenders);
     }
@@ -41,7 +68,7 @@ class TenderController extends Controller
 
     public function show(Tender $tender)
     {
-        return TenderResource::make($tender);
+        return TenderDetailResource::make($tender);
     }
 
     public function update(Tender $tender, TenderUpdateRequest $request)
