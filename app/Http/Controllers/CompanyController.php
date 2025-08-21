@@ -58,13 +58,17 @@ class CompanyController extends Controller
         ]);
 
         $region = Region::query()->updateOrCreate([
-
+            'name' => $data['data']['address']['data']['region'],
+            'region_fias_id' => $data['data']['address']['data']['region_fias_id'],
+            'region_iso_code' => $data['data']['address']['data']['region_fias_id'],
+            'region_type' => $data['data']['address']['data']['region_fias_id'],
+            'country_id' => $country->id,
         ]);
 
         $city = City::query()->updateOrCreate([
             'name' => $data['data']['address']['data']['city'],
             'fias_id' => $data['data']['address']['data']['city_fias_id'],
-            'country_id' => $country->id
+            'region_id' => $region->id
         ]);
 
         $company = Company::query()->create([

@@ -31,7 +31,8 @@ class CompanyResource extends JsonResource
                 'post' => $this->management_post
             ],
             'address' => [
-                'country' => $this->city->country->name,
+                'country' => $this->city->region->country->name,
+                'region' => $this->city->region->name,
                 'city' => $this->city->name,
                 'postal_code' => $this->postal_code,
                 'full_address' => $this->address
