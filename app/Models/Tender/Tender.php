@@ -85,4 +85,9 @@ class Tender extends Model
         return $this->hasMany(TenderFile::class, 'tender_id', 'id');
     }
 
+    public function bids()
+    {
+        return $this->hasMany(TenderBid::class, 'tender_id', 'id');
+    }
+
 }

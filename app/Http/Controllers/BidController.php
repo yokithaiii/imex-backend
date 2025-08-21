@@ -7,6 +7,7 @@ use App\Http\Resources\Tender\TenderBidResource;
 use App\Models\Tender\Tender;
 use App\Models\Tender\TenderBid;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BidController extends Controller
 {
@@ -24,9 +25,10 @@ class BidController extends Controller
 
     public function store(Tender $tender, BidRequest $request)
     {
+        $user = $request->user();
         $validatedData = $request->validated();
 
-        if ($tender->user_id === $request->user()->id) {
+        if ($tender->user_id === $user->id) {
             return response()->json(['error' => 'Вы не можете участвовать в своем тендере'], 403);
         }
 
@@ -34,22 +36,21 @@ class BidController extends Controller
             return response()->json(['error' => 'Вы не можете указать цену ниже чем начальаня цена в тендере'], 403);
         }
 
-        $tenderBidExists = TenderBid::query()
-            ->where('tender_id', $tender->id)
-            ->where('user_id', $request->user()->id)
-            ->exists();
-
-        if ($tenderBidExists) {
-            return response()->json(['error' => 'Вы уже подали заявку на участие в этом тендере'], 400);
+        if ($tender->bids()->where('user_id', $user->id)->exists()) {
+            return response()->json([
+                'error' => 'Вы уже подали заявку на участие в этом тендере'
+            ], 400);
         }
 
-        $tenderBid = TenderBid::query()->create([
-            'user_id' => $request->user()->id,
-            'tender_id' => $tender->id,
-            'company_id' => $validatedData['company_id'],
-            'price' => $validatedData['price'],
-            'date' => $validatedData['date'],
-        ]);
+        $tenderBid = DB::transaction(function () use ($user, $tender, $validatedData) {
+            return TenderBid::query()->create([
+                'user_id' => $user->id,
+                'tender_id' => $tender->id,
+                'company_id' => $validatedData['company_id'],
+                'price' => $validatedData['price'],
+                'date' => $validatedData['date'],
+            ]);
+        });
 
         return response()->json([
             'message' => 'Ваша заявка успешно создана',
