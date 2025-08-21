@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\LocationController;
 use App\Http\Controllers\TenderBidController;
 use App\Http\Controllers\TenderController;
 use App\Http\Controllers\UserController;
@@ -25,6 +26,10 @@ Route::prefix('auth')->group(function () {
 });
 
 Route::middleware('auth:sanctum')->group(function () {
+
+    Route::get('/countries', [LocationController::class, 'getCountries']);
+    Route::get('/regions', [LocationController::class, 'getRegions']);
+    Route::get('/cities', [LocationController::class, 'getCities']);
 
     Route::prefix('users')->group(function () {
         Route::get('/', [UserController::class, 'index']);
