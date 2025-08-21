@@ -40,24 +40,5 @@ class DatabaseSeeder extends Seeder
             'title' => 'escrow'
         ]);
 
-        $baseTariff = Tariff::factory()->create([
-            'name' => 'Базовый',
-            'max_bids' => 10
-        ]);
-
-        Tariff::factory()->create([
-            'name' => 'Лайт',
-            'max_bids' => 1
-        ]);
-
-        UserSubscription::factory()->create([
-            'user_id' => $user->id,
-            'tariff_id' => $baseTariff->id,
-            'is_active' => true,
-            'is_demo' => false,
-            'status' => 'completed',
-            'start_date' => Carbon::now(),
-            'end_date' => Carbon::now()->addMonth(),
-        ]);
     }
 }

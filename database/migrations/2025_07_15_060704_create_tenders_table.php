@@ -14,22 +14,43 @@ return new class extends Migration
         Schema::create('tenders', function (Blueprint $table) {
             $table->uuid('id')->primary();
 
+            // Компания
+            $table->foreignUuid('company_id')
+                ->constrained('companies')
+                ->onDelete('set null');
+
+            $table->boolean('notifications_new_members')->default(false);
+            $table->boolean('notifications_offer_changes')->default(false);
+
             // Основная информация
             $table->string('title');
             $table->text('description')->nullable();
             $table->string('tender_number')->unique();
-            $table->foreignUuid('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignUuid('user_id')
+                ->constrained('users')
+                ->onDelete('cascade');
+
+            // Адрес
+            $table->foreignUuid('region_id')
+                ->constrained('regions')
+                ->onDelete('cascade');
 
             // Товары/услуги
-            $table->string('item_name')->comment('Наименование товара/услуги');
-            $table->string('unit_of_measure')->comment('Единица измерения');
-            $table->decimal('quantity', 12, 2)->comment('Количество');
-            $table->decimal('price_per_unit', 12, 2)->nullable()->comment('Цена за единицу');
-            $table->decimal('total_amount', 15, 2)->nullable()->comment('Общая сумма');
+            $table->integer('unit_quantity')->default(0);
+            $table->string('unit_measure')->default('Штуки');
 
-            // Условия
-            $table->string('delivery_place')->comment('Место поставки');
-            $table->text('notes')->nullable()->comment('Примечание');
+            // Даты
+            $table->dateTime('published_at')->nullable()->comment('Дата публикации');
+            $table->dateTime('start_date');
+            $table->dateTime('end_date');
+
+            // Цены
+            $table->decimal('start_price', 14, 2)->default(0);
+            $table->decimal('max_price', 14, 2)->default(0);
+
+            // Тумблеры
+            $table->boolean('recommend_before_tender_end')->default(false);
+            $table->boolean('is_escrow_tender')->default(false);
 
             // Статус и даты
             $table->enum('status', [
@@ -39,9 +60,6 @@ return new class extends Migration
                 'completed',
                 'canceled'
             ])->default('draft');
-            $table->dateTime('published_at')->nullable()->comment('Дата публикации');
-            $table->dateTime('submission_deadline')->comment('Срок подачи заявок');
-            $table->dateTime('auction_date')->nullable()->comment('Дата проведения аукциона');
 
             $table->timestamps();
             $table->softDeletes();
