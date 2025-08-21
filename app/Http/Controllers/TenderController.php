@@ -49,8 +49,16 @@ class TenderController extends Controller
         $page = $request->input('page', 1);
         $perPage = $request->input('per_page', 5);
 
+        $user = $request->user();
+
         $tenders = Tender::query()
-            ->where('status', '=', 'published')
+            ->where('status', 'published')
+            ->whereHas('bids', function ($q) use ($user) {
+                $q->where('user_id', $user->id);
+            })
+            ->with(['bids' => function ($q) use ($user) {
+                $q->where('user_id', $user->id);
+            }])
             ->paginate($perPage, ['*'], 'page', $page);
 
         return TenderResource::collection($tenders);
