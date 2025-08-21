@@ -61,6 +61,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/', [TenderController::class, 'index']);
         Route::get('/created', [TenderController::class, 'getCreatedTenders']);
         Route::get('/participated', [TenderController::class, 'getParticipatedTenders']);
+        Route::get('/new', [TenderController::class, 'getNewTenders']);
 
         Route::post('/create', [TenderController::class, 'store']);
 

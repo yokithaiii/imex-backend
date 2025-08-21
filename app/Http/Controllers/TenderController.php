@@ -7,6 +7,7 @@ use App\Http\Requests\Tender\TenderRequest;
 use App\Http\Requests\Tender\TenderStatusRequest;
 use App\Http\Requests\Tender\TenderUpdateRequest;
 use App\Http\Resources\Tender\TenderDetailResource;
+use App\Http\Resources\Tender\TenderParticipatedResource;
 use App\Http\Resources\Tender\TenderResource;
 use App\Models\Tender\Tender;
 use App\Services\TenderService;
@@ -59,6 +60,21 @@ class TenderController extends Controller
             ->with(['bids' => function ($q) use ($user) {
                 $q->where('user_id', $user->id);
             }])
+            ->paginate($perPage, ['*'], 'page', $page);
+
+        return TenderParticipatedResource::collection($tenders);
+    }
+
+    public function getNewTenders(Request $request)
+    {
+        $page = $request->input('page', 1);
+        $perPage = $request->input('per_page', 5);
+
+        $user = $request->user();
+
+        $tenders = Tender::query()
+            ->where('user_id', '!=', $user->id)
+            ->orderBy('created_at', 'desc')
             ->paginate($perPage, ['*'], 'page', $page);
 
         return TenderResource::collection($tenders);
