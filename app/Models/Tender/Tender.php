@@ -2,6 +2,7 @@
 
 namespace App\Models\Tender;
 
+use App\Models\Company\Company;
 use App\Models\User\User;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
@@ -57,6 +58,11 @@ class Tender extends Model
 
             $model->tender_number = $prefix . str_pad($nextNumber, 6, '0', STR_PAD_LEFT);
         });
+    }
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class, 'company_id', 'id');
     }
 
     public function category()

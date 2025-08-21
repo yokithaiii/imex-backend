@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Tender;
 
+use App\Http\Resources\Company\CompanyResource;
 use App\Http\Resources\User\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -20,24 +21,16 @@ class TenderResource extends JsonResource
             'tender_number' => $this->tender_number,
             'title' => $this->title,
             'description' => $this->description,
-            'item' => [
-                'name' => $this->item_name,
-                'unit_of_measure' => $this->unit_of_measure,
-                'quantity' => $this->quantity,
-                'price_per_unit' => $this->price_per_unit,
-            ],
-            'payment' => $this->payment->title,
-            'total_amount' => $this->total_amount,
-            'delivery_place' => $this->delivery_place,
-            'notes' => $this->notes,
-            'status' => $this->status,
-            'published_at' => $this->published_at,
-            'submission_deadline' => $this->submission_deadline,
-            'auction_date' => $this->auction_date,
+            'unit_quantity' => $this->unit_quantity,
+            'unit_measure' => $this->unit_measure,
+            'start_date' => $this->start_date,
+            'end_date' => $this->end_date,
+            'start_price' => $this->start_price,
+            'max_price' => $this->max_price,
+            'files' => TenderFileResource::collection($this->files),
+            'company' => CompanyResource::make($this->company),
             'user' => UserResource::make($this->user),
             'category' => TenderCategoryResource::make($this->category),
-            'bids_count' => $this->bids()->count(),
-            'bids' => TenderBidResource::collection($this->bids)
         ];
     }
 }

@@ -3,16 +3,32 @@
 namespace App\Services;
 
 use App\Models\Tender\Tender;
+use App\Models\Tender\TenderFile;
+use Illuminate\Support\Facades\DB;
 
 class TenderService
 {
     public function createTender($input)
     {
-        $tender = Tender::query()->create($input);
+        $tender = DB::transaction(function () use ($input) {
+            $tender = Tender::query()->create($input);
+
+            if (!empty($input['files'])) {
+                foreach ($input['files'] as $file) {
+                    TenderFile::query()->create([
+                        'tender_id' => $tender->id,
+                        'url' => $file['url'],
+                        'type' => $file['type'],
+                    ]);
+                }
+            }
+
+            return $tender;
+        });
 
         return response()->json([
             'message' => 'Tender created successfully.',
-            'data' => $tender
+            'data' => $tender->load('files') // можно сразу вернуть файлы
         ], 201);
     }
 }
