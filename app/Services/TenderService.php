@@ -10,25 +10,32 @@ class TenderService
 {
     public function createTender($input)
     {
-        $tender = DB::transaction(function () use ($input) {
-            $tender = Tender::query()->create($input);
+        try {
+            $tender = DB::transaction(function () use ($input) {
+                $tender = Tender::query()->create($input);
 
-            if (!empty($input['files'])) {
-                foreach ($input['files'] as $file) {
-                    TenderFile::query()->create([
-                        'tender_id' => $tender->id,
-                        'url' => $file['url'],
-                        'type' => $file['type'],
-                    ]);
+                if (!empty($input['files'])) {
+                    foreach ($input['files'] as $file) {
+                        TenderFile::query()->create([
+                            'tender_id' => $tender->id,
+                            'url' => $file['url'],
+                            'type' => $file['type'],
+                        ]);
+                    }
                 }
-            }
 
-            return $tender;
-        });
+                return $tender;
+            });
 
-        return response()->json([
-            'message' => 'Tender created successfully.',
-            'data' => $tender->load('files') // можно сразу вернуть файлы
-        ], 201);
+            return response()->json([
+                'message' => 'Tender created successfully.',
+                'data' => $tender->load('files') // можно сразу вернуть файлы
+            ], 201);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'message' => 'Ошибка при создании тендера.',
+                'error'   => $e->getMessage(),
+            ], 500);
+        }
     }
 }
