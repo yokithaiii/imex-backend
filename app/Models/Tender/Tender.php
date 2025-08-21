@@ -5,6 +5,7 @@ namespace App\Models\Tender;
 use App\Models\User\User;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Tender extends Model
 {
@@ -51,7 +52,7 @@ class Tender extends Model
                 ->max('tender_number');
 
             $nextNumber = $maxNumber
-                ? (int) str_replace($prefix, '', $maxNumber) + 1
+                ? (int)str_replace($prefix, '', $maxNumber) + 1
                 : 1;
 
             $model->tender_number = $prefix . str_pad($nextNumber, 6, '0', STR_PAD_LEFT);
@@ -68,18 +69,14 @@ class Tender extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function contacts()
-    {
-        return $this->hasMany(TenderContact::class, 'tender_id', 'id');
-    }
-
     public function payment()
     {
         return $this->belongsTo(TenderPayment::class, 'payment_id', 'id');
     }
 
-    public function bids()
+    public function files()
     {
-        return $this->hasMany(TenderBid::class, 'tender_id', 'id');
+        return $this->hasMany(TenderFile::class, 'tender_id', 'id');
     }
+
 }
