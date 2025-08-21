@@ -14,11 +14,11 @@ class City extends Model
     protected $fillable = [
         'name',
         'fias_id',
-        'country_id'
+        'region_id'
     ];
 
-    public function country()
+    public function region()
     {
-        return $this->belongsTo(Country::class, 'country_id', 'id');
+        return $this->belongsTo(Region::class, 'region_id', 'id');
     }
 }

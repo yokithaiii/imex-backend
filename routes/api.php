@@ -62,11 +62,11 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/{tender}/delete', [TenderController::class, 'delete']);
 
         // Bids
-        Route::get('/{tender}/bids/get', [TenderBidController::class, 'index']);
-        Route::post('/{tender}/bids/create', [TenderBidController::class, 'store']);
-        Route::get('/{tender}/bids/{bid}/show', [TenderBidController::class, 'show']);
-        Route::post('/{tender}/bids/{bid}/update', [TenderBidController::class, 'update']);
-        Route::delete('/{tender}/bids/{bid}/delete', [TenderBidController::class, 'delete']);
+//        Route::get('/{tender}/bids/get', [TenderBidController::class, 'index']);
+//        Route::post('/{tender}/bids/create', [TenderBidController::class, 'store']);
+//        Route::get('/{tender}/bids/{bid}/show', [TenderBidController::class, 'show']);
+//        Route::post('/{tender}/bids/{bid}/update', [TenderBidController::class, 'update']);
+//        Route::delete('/{tender}/bids/{bid}/delete', [TenderBidController::class, 'delete']);
 
     });
 

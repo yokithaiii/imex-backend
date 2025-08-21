@@ -20,6 +20,7 @@ class UserSubscription extends Model
         'is_demo',
         'start_date',
         'end_date',
+        'status',
     ];
 
     protected $casts = [

@@ -9,6 +9,7 @@ use App\Models\Company\City;
 use App\Models\Company\Company;
 use App\Models\Company\CompanyVerify;
 use App\Models\Company\Country;
+use App\Models\Company\Region;
 use App\Services\DaDataService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
@@ -54,6 +55,10 @@ class CompanyController extends Controller
         $country = Country::query()->updateOrCreate([
             'name' => $data['data']['address']['data']['country'],
             'iso_code' => $data['data']['address']['data']['country_iso_code'],
+        ]);
+
+        $region = Region::query()->updateOrCreate([
+
         ]);
 
         $city = City::query()->updateOrCreate([

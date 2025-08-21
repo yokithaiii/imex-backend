@@ -16,8 +16,9 @@ class Country extends Model
         'iso_code'
     ];
 
-    public function cities()
+    public function regions()
     {
         return $this->hasMany(City::class, 'country_id', 'id');
     }
+
 }
