@@ -1,9 +1,9 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BidController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\LocationController;
-use App\Http\Controllers\TenderBidController;
 use App\Http\Controllers\TenderController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -70,8 +70,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/{tender}/delete', [TenderController::class, 'delete']);
 
         // Bids
-//        Route::get('/{tender}/bids/get', [TenderBidController::class, 'index']);
-//        Route::post('/{tender}/bids/create', [TenderBidController::class, 'store']);
+        Route::get('/{tender}/bids/get', [BidController::class, 'index']);
+        Route::post('/{tender}/bids/create', [BidController::class, 'store']);
+
 //        Route::get('/{tender}/bids/{bid}/show', [TenderBidController::class, 'show']);
 //        Route::post('/{tender}/bids/{bid}/update', [TenderBidController::class, 'update']);
 //        Route::delete('/{tender}/bids/{bid}/delete', [TenderBidController::class, 'delete']);

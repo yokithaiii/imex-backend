@@ -41,8 +41,8 @@ return new class extends Migration
 
             // Даты
             $table->dateTime('published_at')->nullable()->comment('Дата публикации');
-            $table->dateTime('start_date');
-            $table->dateTime('end_date');
+            $table->date('start_date');
+            $table->date('end_date');
 
             // Цены
             $table->decimal('start_price', 14, 2)->default(0);

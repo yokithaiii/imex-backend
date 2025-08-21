@@ -19,8 +19,8 @@ class TenderBidResource extends JsonResource
         return [
             'id' => $this->id,
             'price' => $this->price,
-            'comment' => $this->comment,
-            'company' => CompanyResource::make($this->company),
+            'date' => $this->date,
+            'company_id' => $this->company_id
         ];
     }
 }

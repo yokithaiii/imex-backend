@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Tender;
+namespace App\Http\Requests\Bid;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TenderBidUpdateRequest extends FormRequest
+class BidRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,9 +22,9 @@ class TenderBidUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'company_id' => 'nullable|string|exists:company,id',
-            'price' => 'nullable|integer',
-            'comment' => 'nullable|string',
+            'company_id' => 'required|string|exists:companies,id',
+            'price' => 'required|integer',
+            'date' => 'required|date',
         ];
     }
 }
