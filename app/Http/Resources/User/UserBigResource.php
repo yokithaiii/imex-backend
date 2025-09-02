@@ -23,12 +23,13 @@ class UserBigResource extends JsonResource
             'birthdate' => $this->birthdate,
             'email' => $this->email,
             'phone' => $this->phone,
-            'have_subscription' => $this->subscription->is_active,
-            'subscription' => $this->subscription,
-            'tariff' => $this->tariff,
 //            'tenders' => TenderResource::collection($this->tenders),
-//            'bids' => TenderBidResource::collection($this->bids)
-            'balance' => $this->balance
+//            'bids' => TenderBidResource::collection($this->bids),
+            'balance' => $this->balance,
+            'have_subscription' => $this->subscription->is_active,
+            'tariff' => $this->subscription->tariff->name,
+            'max_bids' => $this->subscription->tariff->max_bids,
+            'bids_left' => $this->subscription->tariff->max_bids - count($this->bids)
         ];
     }
 }
