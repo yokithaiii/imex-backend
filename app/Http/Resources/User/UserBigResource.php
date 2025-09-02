@@ -25,9 +25,10 @@ class UserBigResource extends JsonResource
             'phone' => $this->phone,
             'have_subscription' => $this->subscription->is_active,
             'subscription' => $this->subscription,
-            'tariff' => $this->tariff
+            'tariff' => $this->tariff,
 //            'tenders' => TenderResource::collection($this->tenders),
 //            'bids' => TenderBidResource::collection($this->bids)
+            'balance' => $this->balance
         ];
     }
 }
