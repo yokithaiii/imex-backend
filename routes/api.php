@@ -3,7 +3,9 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BidController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\FormController;
 use App\Http\Controllers\LocationController;
+use App\Http\Controllers\MainController;
 use App\Http\Controllers\TenderController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -26,6 +28,12 @@ Route::prefix('auth')->group(function () {
 });
 
 Route::middleware('auth:sanctum')->group(function () {
+
+    Route::prefix('main')->group(function () {
+        Route::post('maintenance', [MainController::class, 'createMaintenance']);
+        Route::get('incomes', [MainController::class, 'getIncomes']);
+        Route::get('tenders', [MainController::class, 'getTenders']);
+    });
 
     Route::get('/countries', [LocationController::class, 'getCountries']);
     Route::get('/regions', [LocationController::class, 'getRegions']);
