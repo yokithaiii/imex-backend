@@ -40,5 +40,17 @@ class DatabaseSeeder extends Seeder
             'title' => 'escrow'
         ]);
 
+        Tariff::factory()->create([
+            'name' => 'Базовый тариф',
+            'price' => 0,
+            'max_bids' => 10
+        ]);
+
+        Tariff::factory()->create([
+            'name' => 'Продвинутый тариф',
+            'price' => 1000,
+            'max_bids' => 25
+        ]);
+
     }
 }
