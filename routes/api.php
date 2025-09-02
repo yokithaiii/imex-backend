@@ -7,6 +7,7 @@ use App\Http\Controllers\FormController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\TenderController;
+use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -26,6 +27,8 @@ Route::prefix('auth')->group(function () {
     });
 
 });
+
+Route::get('/test', [TestController::class, 'test']);
 
 Route::middleware('auth:sanctum')->group(function () {
 
