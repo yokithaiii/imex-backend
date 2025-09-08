@@ -24,7 +24,15 @@ class RegisterRequest extends FormRequest
         return [
             'firstname' => 'string|required',
             'lastname' => 'string|nullable',
+            'secondname' => 'string|nullable',
+            'inn' => 'string|nullable',
             'birthdate' => 'string|required',
+            'birthplace' => 'string|nullable',
+            'passport_number' => 'integer|nullable|max_digits:4',
+            'passport_series' => 'integer|nullable',
+            'passport_issued_date' => 'string|nullable',
+            'passport_issued_who' => 'string|nullable',
+            'registration_address' => 'string|nullable',
             'password' => 'string|confirmed',
         ];
     }

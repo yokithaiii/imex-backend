@@ -13,6 +13,7 @@ use App\Models\User\UserVerifyCode;
 use App\Services\AuthService;
 use App\Services\EmailService;
 use App\Services\SmsService;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
@@ -151,8 +152,16 @@ class AuthController extends Controller
 
         $user->update([
             'firstname' => $validatedData['firstname'],
-            'lastname' => $validatedData['lastname'] ?? null,
-            'birthdate' => $validatedData['birthdate'],
+            'lastname' => $validatedData['lastname'],
+            'secondname' => $validatedData['secondname'],
+            'inn' => $validatedData['inn'],
+            'birthdate' => $validatedData['birthdate'] ? Carbon::parse($validatedData['birthdate'])->format('Y-m-d') : null,
+            'birthplace' => $validatedData['birthplace'],
+            'passport_number' => $validatedData['passport_number'],
+            'passport_series' => $validatedData['passport_series'],
+            'passport_issued_date' => $validatedData['passport_issued_date'] ? Carbon::parse($validatedData['passport_issued_date'])->format('Y-m-d') : null,
+            'passport_issued_who' => $validatedData['passport_issued_who'],
+            'registration_address' => $validatedData['registration_address'],
             'password' => Hash::make($validatedData['password'])
         ]);
 

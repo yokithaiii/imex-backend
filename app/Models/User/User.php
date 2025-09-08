@@ -20,6 +20,15 @@ class User extends Authenticatable
     protected $fillable = [
         'firstname',
         'lastname',
+        'secondname',
+        'inn',
+        'birthdate',
+        'birthplace',
+        'passport_number',
+        'passport_series',
+        'passport_issued_date',
+        'passport_issued_who',
+        'registration_address',
         'email',
         'phone',
         'password',
@@ -36,6 +45,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'phone_verified_at' => 'datetime',
+            'passport_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
     }
@@ -44,7 +54,7 @@ class User extends Authenticatable
     {
         parent::boot();
 
-        static::creating(function ($model) {
+        static::created(function ($model) {
             $date = Carbon::parse($model->created_at);
             $userSubscription = UserSubscription::query()->create([
                 'user_id' => $model->id,

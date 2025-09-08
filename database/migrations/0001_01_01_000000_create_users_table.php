@@ -16,7 +16,20 @@ return new class extends Migration
 
             $table->string('firstname')->nullable();
             $table->string('lastname')->nullable();
+            $table->string('secondname')->nullable();
+
+            $table->string('inn')->nullable();
+
             $table->string('birthdate')->nullable();
+            $table->string('birthplace')->nullable();
+
+            $table->string('passport_number')->nullable();
+            $table->string('passport_series')->nullable();
+            $table->string('passport_issued_date')->nullable();
+            $table->string('passport_issued_who')->nullable();
+            $table->timestamp('passport_verified_at')->nullable();
+
+            $table->string('registration_address')->nullable();
 
             $table->string('email')->nullable()->unique();
             $table->timestamp('email_verified_at')->nullable();
