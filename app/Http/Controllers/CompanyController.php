@@ -40,7 +40,15 @@ class CompanyController extends Controller
     {
         $validatedData = $request->validated();
 
-        $data = $this->daDataService->findCompanyByInn($validatedData);
+        if ($validatedData['type'] === 'jur') {
+            $type = 'legal';
+        } elseif ($validatedData['type'] === 'ip') {
+            $type = 'individual';
+        } else {
+            $type = 'fiz';
+        }
+
+        $data = $this->daDataService->findCompanyByInn($validatedData['inn'], $type);
         if (!$data) {
             return response()->json(['error' => 'Компания не найдена.'], 404);
         }

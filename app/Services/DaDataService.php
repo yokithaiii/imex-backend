@@ -14,7 +14,7 @@ class DaDataService
         $this->apiKey = env('DADATA_API_KEY');
     }
 
-    public function findCompanyByInn($input)
+    public function findCompanyByInn($inn, $type)
     {
         $url = $this->baseUrl . '/findById/party';
 
@@ -22,10 +22,10 @@ class DaDataService
             'Authorization' => 'Token ' . $this->apiKey,
             'Content-Type'  => 'application/json',
         ])->post($url, [
-            'query' => $input['inn'],
+            'query' => $inn,
             'count' => 1,
             'branch_type' => 'MAIN',
-            'type' => mb_strtoupper($input['type']),
+            'type' => mb_strtoupper($type),
         ]);
 
         if ($response->successful()) {

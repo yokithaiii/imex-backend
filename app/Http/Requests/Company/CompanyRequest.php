@@ -22,7 +22,7 @@ class CompanyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'type' => 'required|string|in:legal,individual',
+            'type' => 'required|string|in:fiz,jur,ip',
             'inn' => 'required|integer'
         ];
     }
