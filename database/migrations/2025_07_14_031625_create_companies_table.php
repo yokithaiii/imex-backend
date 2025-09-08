@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignUuid('user_id')->constrained('users')->onDelete('cascade');
 
             // Тип компании: юр. лицо или физ. лицо (например, ИП)
-            $table->enum('type', ['legal', 'individual'])->default('legal');
+            $table->enum('type', ['fiz', 'jur', 'ip'])->default('fiz');
 
             // Названия
             $table->string('name_full');
