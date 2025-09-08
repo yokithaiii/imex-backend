@@ -20,15 +20,59 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         Tariff::factory()->create([
-            'name' => 'Базовый тариф',
+            'name' => 'Бесплатный тариф',
+            'type' => 'free',
             'price' => 0,
-            'max_bids' => 10
+            'max_bids' => 5,
+            'has_infinity_bids' => false,
+            'max_products' => 5,
+            'has_infinity_products' => false,
+            'escrow_type' => 'paid',
+            'analytics_type' => 'base',
+            'has_ads_marketing' => false,
+            'has_personal_manager' => false,
+        ]);
+
+        Tariff::factory()->create([
+            'name' => 'Базовый тариф',
+            'type' => 'base',
+            'price' => 5000,
+            'max_bids' => 20,
+            'has_infinity_bids' => false,
+            'max_products' => 20,
+            'has_infinity_products' => false,
+            'escrow_type' => 'paid',
+            'analytics_type' => 'base',
+            'has_ads_marketing' => false,
+            'has_personal_manager' => false,
         ]);
 
         Tariff::factory()->create([
             'name' => 'Продвинутый тариф',
-            'price' => 1000,
-            'max_bids' => 25
+            'type' => 'pro',
+            'price' => 19900,
+            'max_bids' => 50,
+            'has_infinity_bids' => false,
+            'max_products' => 50,
+            'has_infinity_products' => false,
+            'escrow_type' => 'free',
+            'analytics_type' => 'full',
+            'has_ads_marketing' => true,
+            'has_personal_manager' => false,
+        ]);
+
+        Tariff::factory()->create([
+            'name' => 'Премиум тариф',
+            'type' => 'premium',
+            'price' => 200000,
+            'max_bids' => 1000,
+            'has_infinity_bids' => true,
+            'max_products' => 1000,
+            'has_infinity_products' => true,
+            'escrow_type' => 'free',
+            'analytics_type' => 'full',
+            'has_ads_marketing' => true,
+            'has_personal_manager' => true,
         ]);
 
         User::factory()->create([

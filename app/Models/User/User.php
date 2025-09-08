@@ -58,7 +58,7 @@ class User extends Authenticatable
             $date = Carbon::parse($model->created_at);
             $userSubscription = UserSubscription::query()->create([
                 'user_id' => $model->id,
-                'tariff_id' => Tariff::query()->where('price', 0)->pluck('id')->first(),
+                'tariff_id' => Tariff::query()->where('type', 'free')->pluck('id')->first(),
                 'start_date' => $date->format('Y-m-d'),
                 'end_date' => $date->addYear()->format('Y-m-d'),
                 'is_active' => true,

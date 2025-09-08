@@ -15,8 +15,25 @@ return new class extends Migration
             $table->uuid('id')->primary();
 
             $table->string('name');
+            $table->enum('type', [
+                'free',
+                'base',
+                'pro',
+                'premium'
+            ])->default('free');
             $table->integer('price');
-            $table->integer('max_bids');
+
+            $table->integer('max_bids')->default(20);
+            $table->boolean('has_infinity_bids')->default(false); // Тариф Премиум, безлимит
+
+            $table->integer('max_products')->default(20);
+            $table->boolean('has_infinity_products')->default(false); // Тариф Премиум, безлимит
+
+            $table->enum('escrow_type', ['paid', 'free'])->default('paid');
+            $table->enum('analytics_type', ['base', 'full'])->default('base');
+
+            $table->boolean('has_ads_marketing')->default(false);
+            $table->boolean('has_personal_manager')->default(false);
 
             $table->timestamps();
         });

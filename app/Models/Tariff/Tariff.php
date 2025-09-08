@@ -14,8 +14,16 @@ class Tariff extends Model
 
     protected $fillable = [
         'name',
+        'type',
         'price',
         'max_bids',
+        'has_infinity_bids',
+        'max_products',
+        'has_infinity_products',
+        'escrow_type',
+        'analytics_type',
+        'has_ads_marketing',
+        'has_personal_manager',
     ];
 
 
